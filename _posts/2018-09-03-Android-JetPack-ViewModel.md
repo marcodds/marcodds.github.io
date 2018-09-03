@@ -310,6 +310,10 @@ HolderFragment holderFragmentFor(FragmentActivity activity) {
 ```java
     private ViewModelStore mViewModelStore = new ViewModelStore();
     
+    public HolderFragment() {
+        //当前Fragment绑定的Activity被recreate时，Fragment的onDestroy()和onCreate()不会调用
+        setRetainInstance(true);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -409,8 +413,6 @@ public <T extends ViewModel> T get(@NonNull String key, @NonNull Class<T> modelC
     }
 ```
 至此，`ViewModelProviders.of(xx).get(xxx)`分析完毕。
-
-最后，写博客能让人把思路一下子理清楚。
 
 
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
