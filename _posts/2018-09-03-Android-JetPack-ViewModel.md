@@ -152,7 +152,7 @@ public static ViewModelProvider of(@NonNull FragmentActivity activity,
 ```java
 ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(checkApplication(activity));
 ```
-该方法会返回一个`Factory`，何为`AndroidViewModelFactory`？
+该方法会通过`AndroidViewModelFactory#getInstance()`返回一个`AndroidViewModelFactory`的单例，何为`AndroidViewModelFactory`？
 ```java
  public static class AndroidViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
