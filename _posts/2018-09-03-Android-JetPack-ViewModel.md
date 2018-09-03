@@ -85,7 +85,9 @@ public class AndroidViewModel extends ViewModel {
 ```
 
 ## ViewModel的生命周期
+
 ![ViewModel的生命周期][4]
+
 通常情况下会在`Activity`的`onCreate()`方法获取`ViewModel`，此后无论`onCreate()`调用多少次，获取到的`ViewModel`都是同一个实例。
 
 ## ViewModel源码分析
@@ -102,7 +104,7 @@ public abstract class ViewModel {
     }
 }
 ```
-`ViewModel`是一个抽象类，中间只有一个可选择实现的方法`onCleared()`，该方法会在`Activity`或者`Fragment`的`onDestory()`被调用，用于回收资源。
+`ViewModel`是一个抽象类，中间只有一个可选择实现的方法`onCleared()`，该方法会在重复缓存当前`ViewModel`到`ViewModelStore`中或者`HolderFragment`的`onDestory()`被调用，用于回收资源。
 
 ## ViewModelProviders.of(xxx).get(xxx)源码分析
 对于上文中出现的代码：
