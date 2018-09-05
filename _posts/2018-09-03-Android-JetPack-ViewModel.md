@@ -16,18 +16,21 @@ tags: ViewModel
 
 # Android Jetpack系列之ViewModel
 
-[Android Jetpack][3]是一系列助力更容易打造卓越 Android 应用的工具和组件。这些组件能帮助您遵循最佳实践、免除编写繁复的样板代码并简化复杂任务，从而使您可以专注于最核心的代码逻辑。
+[Android Jetpack][2]是一系列助力更容易打造卓越 Android 应用的工具和组件。这些组件能帮助您遵循最佳实践、免除编写繁复的样板代码并简化复杂任务，从而使您可以专注于最核心的代码逻辑。
 
 `Jetpack` 中的架构指南由 `Android` 开发中四个关键领域中的一系列代码库和工具提供支持。它们分别是**基础（Foundation）、架构（Architecture）、行为（Behavior）和 UI**。每个 `Jetpack` 组件均可单独采用，但它们依然可以流畅地协作。其中 `androidx.*` 库与 `Framework API`解耦，这能够提供向后兼容的同时，也能更频繁地更新。
 
-本文记录[Android Jetpack][4]架构组件（Architecture）中的[ViewModel][5]。
+本文记录[Android Jetpack][3]架构组件（Architecture）中的[ViewModel][4]。
 
 ## ViewModel概述
 `ViewModel`用来管理UI交互的数据，它保存的数据不会因为`Activity`配置改变而重新生成，比如屏幕旋转会重新触发`onCreate()`，但是`ViewModel`保存的数据不会丢失。
 
 `Activity`和`Fragment`的生命周期是由`Framework`管理，`Framework`会在不在用户控制的情况下对`Activity`、`Fragment`进行销毁和重建。
 如果`Activity`、`Fragment`销毁或者重建之后，存储在当中的数据将会丢失，简单的数据可以通过`onSaveInstanceState()`跟`onCreate()`来恢复，但是大数据，比如位图，或者一个列表却不适用，现在这些数据可以保存到`ViewModel`中。
-![效果图][2]
+
+下面是屏幕旋转之后的对比
+![效果图][5]
+![此处输入图片的描述][6]
 
 ## 实现ViewModel
 实现`ViewModel`只需要继承`ViewModel`即可，如：
@@ -87,7 +90,7 @@ public class AndroidViewModel extends ViewModel {
 
 ## ViewModel的生命周期
 
-![ViewModel的生命周期][6]
+![ViewModel的生命周期][7]
 
 通常情况下会在`Activity`的`onCreate()`方法获取`ViewModel`，此后无论`onCreate()`调用多少次，获取到的`ViewModel`都是同一个实例。
 
@@ -419,8 +422,9 @@ public <T extends ViewModel> T get(@NonNull String key, @NonNull Class<T> modelC
 
 
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
-  [2]: https://github.com/qfxl/Common/blob/master/gif/viewmodel.gif
+  [2]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [3]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
-  [4]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
-  [5]: https://developer.android.google.cn/topic/libraries/architecture/viewmodel
-  [6]: https://developer.android.google.cn/images/topic/libraries/architecture/viewmodel-lifecycle.png
+  [4]: https://developer.android.google.cn/topic/libraries/architecture/viewmodel
+  [5]: https://github.com/qfxl/Common/blob/master/pic/portrait.png
+  [6]: https://github.com/qfxl/Common/blob/master/pic/landscape.png
+  [7]: https://developer.android.google.cn/images/topic/libraries/architecture/viewmodel-lifecycle.png
