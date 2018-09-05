@@ -29,7 +29,9 @@ tags: ViewModel
 如果`Activity`、`Fragment`销毁或者重建之后，存储在当中的数据将会丢失，简单的数据可以通过`onSaveInstanceState()`跟`onCreate()`来恢复，但是大数据，比如位图，或者一个列表却不适用，现在这些数据可以保存到`ViewModel`中。
 
 下面是屏幕旋转之后的对比
+
 ![效果图][5]
+
 ![此处输入图片的描述][6]
 
 ## 实现ViewModel
