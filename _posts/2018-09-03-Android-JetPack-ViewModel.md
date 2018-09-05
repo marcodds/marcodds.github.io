@@ -419,7 +419,7 @@ public <T extends ViewModel> T get(@NonNull String key, @NonNull Class<T> modelC
 
 
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
-  [2]: https://github.com/qfxl/qfxl.github.io/blob/master/gif/viewmodel.gif
+  [2]: https://github.com/qfxl/Common/blob/master/gif/viewmodel.gif
   [3]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [4]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [5]: https://developer.android.google.cn/topic/libraries/architecture/viewmodel
