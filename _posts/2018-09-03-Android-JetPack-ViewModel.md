@@ -32,7 +32,6 @@ tags: ViewModel
 
 ![效果图][5]
 
-![此处输入图片的描述][6]
 
 ## 实现ViewModel
 实现`ViewModel`只需要继承`ViewModel`即可，如：
@@ -427,6 +426,5 @@ public <T extends ViewModel> T get(@NonNull String key, @NonNull Class<T> modelC
   [2]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [3]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [4]: https://developer.android.google.cn/topic/libraries/architecture/viewmodel
-  [5]: https://github.com/qfxl/Common/blob/master/pic/portrait.png
-  [6]: https://github.com/qfxl/Common/blob/master/pic/landscape.png
+  [5]: http://petzbyixx.bkt.clouddn.com/viewmodel.gif 
   [7]: https://developer.android.google.cn/images/topic/libraries/architecture/viewmodel-lifecycle.png
