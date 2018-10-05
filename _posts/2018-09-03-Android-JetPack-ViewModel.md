@@ -9,7 +9,7 @@ tags: ViewModel
 * content
 {:toc}
 
-本文记录[Android Jetpack][1]中`Architecture`部分的`ViewModel`以及工作原理。
+本文记录[Android Jetpack][1]中`Architecture`部分的[ViewModel][4]以及工作原理。
 
 
 
