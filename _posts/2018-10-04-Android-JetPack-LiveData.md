@@ -381,7 +381,7 @@ LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
         }
     }
 ```
-点开`LifecycleBoundObserver`。
+点开`LifecycleBoundObserver`，它实现了`GenericLifecycleObserver`接口，这个在分析`LifecycleRegistry#addObserver(LifecycleObserver)`会用到。
 ```java
  class LifecycleBoundObserver extends ObserverWrapper implements GenericLifecycleObserver {
         @NonNull final LifecycleOwner mOwner;
@@ -436,7 +436,7 @@ LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
 ```java
  owner.getLifecycle().addObserver(wrapper);
 ```
-经过了上面分析，可知这句代码最后调用的地方为`LifecycleRegistry#addObserver(wrapper)`。
+经过了上面分析，可知这句代码最后调用的地方为`LifecycleRegistry#addObserver(LifecycleObserver)`。这个方法有一堆计算State方法以及EVENT转换STATE的操作，虽然多但是不复杂。
 ```java
     @Override
     public void addObserver(@NonNull LifecycleObserver observer) {
@@ -459,7 +459,7 @@ LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
         while ((statefulObserver.mState.compareTo(targetState) < 0
                 && mObserverMap.contains(observer))) {
             pushParentState(statefulObserver.mState);
-            statefulObserver.dispatchEvent(lifecycleOwner, upEvent(statefulObserver.mState));
+//最重要的是这句，这里回将Event回调出去 statefulObserver.dispatchEvent(lifecycleOwner, upEvent(statefulObserver.mState));
             popParentState();
             // mState / subling may have been changed recalculate
             targetState = calculateTargetState(observer);
@@ -472,10 +472,179 @@ LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
         mAddingObserverCounter--;
     }
 ```
-//TODO 未完
+上面代码中出现了一个`ObserverWithState`。
+```java
+ static class ObserverWithState {
+        State mState;
+        GenericLifecycleObserver mLifecycleObserver;
 
+        ObserverWithState(LifecycleObserver observer, State initialState) {
+            mLifecycleObserver = Lifecycling.getCallback(observer);
+            mState = initialState;
+        }
 
+        void dispatchEvent(LifecycleOwner owner, Event event) {
+        //根据Event返回State，Event也是一个枚举，其中有ON_CREATE,ON_START,ON_RESUME,ON_PAUSE,ON_STOP,ON_DESTROY,ON_ANY
+            State newState = getStateAfter(event);
+            //计算当前的State
+            mState = min(mState, newState);
+           //回调Event mLifecycleObserver.onStateChanged(owner, event);
+           //将新的State赋值给mState
+            mState = newState;
+        }
+    }
+```
 
+`LiveData#Observe()`方法的大致流程至此。下面跟踪`LiveData#setValue(T)`，这个方法要求在主线程中调用，如果想在子线程中更新`LiveData`的值，可以调用`LiveData#postValue(T)`，下面是`LiveData#setValue(T)`的代码：
+```java
+    @MainThread
+    protected void setValue(T value) {
+        //判断当前线程是否是主线程，不是则会抛出异常
+        assertMainThread("setValue");
+        //这个版本在后文的considerNotify中用于判断是否要回调Observerde#onChagned()
+        mVersion++;
+        //记录此次的数据
+        mData = value;
+        dispatchingValue(null);
+    }
+```
+`dispatchingValue`
+```java
+ private void dispatchingValue(@Nullable ObserverWrapper initiator) {
+        //前面都是一些变量的控制
+        if (mDispatchingValue) {
+            mDispatchInvalidated = true;
+            return;
+        }
+        mDispatchingValue = true;
+        do {
+            mDispatchInvalidated = false;
+            if (initiator != null) {
+                considerNotify(initiator);
+                initiator = null;
+            } else {
+                for (Iterator<Map.Entry<Observer<T>, ObserverWrapper>> iterator =
+                        mObservers.iteratorWithAdditions(); iterator.hasNext(); ) {
+//这里调用considerNotify                    considerNotify(iterator.next().getValue());
+                    if (mDispatchInvalidated) {
+                        break;
+                    }
+                }
+            }
+        } while (mDispatchInvalidated);
+        mDispatchingValue = false;
+    }
+```
+`considerNofify`
+```java
+  private void considerNotify(ObserverWrapper observer) {
+        if (!observer.mActive) {
+            return;
+        }
+        // Check latest state b4 dispatch. Maybe it changed state but we didn't get the event yet.
+        //
+        // we still first check observer.active to keep it as the entrance for events. So even if
+        // the observer moved to an active state, if we've not received that event, we better not
+        // notify for a more predictable notification order.
+        if (!observer.shouldBeActive()) {
+            observer.activeStateChanged(false);
+            return;
+        }
+        if (observer.mLastVersion >= mVersion) {
+            return;
+        }
+        observer.mLastVersion = mVersion;
+        //noinspection unchecked
+        //这里回调了Observer的onChanged()方法
+        observer.mObserver.onChanged((T) mData);
+    }
+```
+## LiveData的状态在何时改变
+调用状态改变的入口在`LifecycleRegistry#handleLifecycleEvent`，这个方法在`supportActvity`中有这么一句代码。
+```java
+   @Override
+    @SuppressWarnings("RestrictedApi")
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ReportFragment.injectIfNeededIn(this);
+    }
+```
+`onCreate`的时候会调用`ReportFragment.injectIfNeededIn(this);`
+```java
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public class ReportFragment extends Fragment {
+    private static final String REPORT_FRAGMENT_TAG = "android.arch.lifecycle"
+            + ".LifecycleDispatcher.report_fragment_tag";
+
+    public static void injectIfNeededIn(Activity activity) {
+        // ProcessLifecycleOwner should always correctly work and some activities may not extend
+        // FragmentActivity from support lib, so we use framework fragments for activities
+        android.app.FragmentManager manager = activity.getFragmentManager();
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            // Hopefully, we are the first to make a transaction.
+            manager.executePendingTransactions();
+        }
+    }
+//这里改变LiveData的STATE    
+private void dispatch(Lifecycle.Event event) {
+        Activity activity = getActivity();
+        if (activity instanceof LifecycleRegistryOwner) {
+            ((LifecycleRegistryOwner) activity).getLifecycle().handleLifecycleEvent(event);
+            return;
+        }
+
+        if (activity instanceof LifecycleOwner) {
+            Lifecycle lifecycle = ((LifecycleOwner) activity).getLifecycle();
+            if (lifecycle instanceof LifecycleRegistry) {
+                ((LifecycleRegistry) lifecycle).handleLifecycleEvent(event);
+            }
+        }
+    }
+}
+
+  @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        dispatchCreate(mProcessListener);
+        dispatch(Lifecycle.Event.ON_CREATE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        dispatchStart(mProcessListener);
+        dispatch(Lifecycle.Event.ON_START);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dispatchResume(mProcessListener);
+        dispatch(Lifecycle.Event.ON_RESUME);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dispatch(Lifecycle.Event.ON_PAUSE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        dispatch(Lifecycle.Event.ON_STOP);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dispatch(Lifecycle.Event.ON_DESTROY);
+        // just want to be sure that we won't leak reference to an activity
+        mProcessListener = null;
+    }
+```
+以上就是`LiveData`大致的工作流程。
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [2]: https://developer.android.google.cn/topic/libraries/architecture/livedata
   [3]: https://developer.android.google.cn/topic/libraries/architecture/livedata
