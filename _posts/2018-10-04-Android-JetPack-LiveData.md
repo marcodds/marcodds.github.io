@@ -587,7 +587,7 @@ public class ReportFragment extends Fragment {
         }
     }
 //这里改变LiveData的STATE    
-private void dispatch(Lifecycle.Event event) {
+	private void dispatch(Lifecycle.Event event) {
         Activity activity = getActivity();
         if (activity instanceof LifecycleRegistryOwner) {
             ((LifecycleRegistryOwner) activity).getLifecycle().handleLifecycleEvent(event);
@@ -645,6 +645,8 @@ private void dispatch(Lifecycle.Event event) {
     }
 ```
 以上就是`LiveData`大致的工作流程。
+
+
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [2]: https://developer.android.google.cn/topic/libraries/architecture/livedata
   [3]: https://developer.android.google.cn/topic/libraries/architecture/livedata
