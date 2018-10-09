@@ -586,7 +586,7 @@ public class ReportFragment extends Fragment {
             manager.executePendingTransactions();
         }
     }
-//这里改变LiveData的STATE    
+	//这里改变LiveData的STATE    
 	private void dispatch(Lifecycle.Event event) {
         Activity activity = getActivity();
         if (activity instanceof LifecycleRegistryOwner) {
@@ -601,7 +601,6 @@ public class ReportFragment extends Fragment {
             }
         }
     }
-}
 
   @Override
     public void onActivityCreated(Bundle savedInstanceState) {
