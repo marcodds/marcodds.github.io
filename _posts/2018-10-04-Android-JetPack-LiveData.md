@@ -586,6 +586,7 @@ public class ReportFragment extends Fragment {
             manager.executePendingTransactions();
         }
     }
+	
 	//这里改变LiveData的STATE    
 	private void dispatch(Lifecycle.Event event) {
         Activity activity = getActivity();
