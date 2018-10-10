@@ -48,6 +48,7 @@ class ConstraintDemoActivity : AppCompatActivity() {
 ```
 
 > activity_constraint_demo
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -118,7 +119,10 @@ class ConstraintDemoActivity : AppCompatActivity() {
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
+
 > activity_constraint_demo_transform
+
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
