@@ -44,6 +44,7 @@ tags: Android文件夹
 # SD卡公有目录。
 
 **请确保有`WRITE_EXTERNAL_STORAGE`权限，这些目录不会随着apk的卸载而自动删除。**
+
 |方法|目录|说明|
 |:-:|:-:|:-:|
 |Environment.getExternalStoragePublicDirectory(DIRECTORY_ALARMS)|/storage/sdcard0/Alarms|一般用于存储闹钟音频目录|
