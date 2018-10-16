@@ -45,18 +45,25 @@ tags: Android文件夹
 
 **请确保有`WRITE_EXTERNAL_STORAGE`权限，这些目录不会随着apk的卸载而自动删除。**
 
-|方法|目录|说明|
-|:-:|:-:|:-:|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_ALARMS)|/storage/sdcard0/Alarms|一般用于存储闹钟音频目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM)|/storage/sdcard0/DCIM|系统自带相机拍照录像存储目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)|/storage/sdcard0/Download|用户下载文件目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_MOVIES)|/storage/sdcard0/Movies|影音文件存储目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_MUSIC)|/storage/sdcard0/Music|音频文件存储目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_NOTIFICATIONS)|/storage/sdcard0/Notifications|一般用于存储通知铃声目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES)|/storage/sdcard0/Pictures|图片存储目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_PODCASTS)|/storage/sdcard0/Podcasts|播客音频存储目录|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_RINGTONES)|/storage/sdcard0/Ringtones|电话铃声存储文件夹|
-|Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS)[api19]|/storage/sdcard0/Documents|用户文档文件夹|
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_ALARMS)，目录为/storage/sdcard0/Alarms，一般用于存储闹钟音频目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM)，目录为/storage/sdcard0/DCIM，系统自带相机拍照录像存储目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)，目录为/storage/sdcard0/Download，用户下载文件目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_MOVIES)，目录为/storage/sdcard0/Movies，影音文件存储目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_MUSIC)，目录为/storage/sdcard0/Music，音频文件存储目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_NOTIFICATIONS)，目录为/storage/sdcard0/Notifications，一般用于存储通知铃声目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES)，目录为/storage/sdcard0/Pictures，图片存储目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_PODCASTS)，目录为/storage/sdcard0/Podcasts，播客音频存储目录。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_RINGTONES)，目录为/storage/sdcard0/Ringtones，电话铃声存储文件夹。
+
+> Environment.getExternalStoragePublicDirectory(DIRECTORY_DOCUMENTS)[api19]，目录为/storage/sdcard0/Documents，用户文档文件夹。
 
 
 
