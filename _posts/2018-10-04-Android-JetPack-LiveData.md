@@ -179,7 +179,7 @@ class StockActivity : AppCompatActivity() {
 
 ```kotlin
 val userLiveData = UserLiveData()
-val nameLiveData = Transformations.map(userLiveData) {
+Transformations.map(userLiveData) {
     it.name
 }.observe(this, Observer {
     stockTv.text = it
