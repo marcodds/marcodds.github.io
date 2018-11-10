@@ -15,10 +15,13 @@ tags: Room
 
 
 # Room概述
-[Room][3]是基于Sqlite上，并在其基础上提供了一个抽象层，更加方便的使用数据库。
-[Room][4]的架构图：
-![Room Architecture][6]
-[Room][7]包含3个核心类。
+[Room][2]是基于Sqlite上，并在其基础上提供了一个抽象层，更加方便的使用数据库。
+
+[Room][2]的架构图：
+
+![Room Architecture][5]
+
+[Room][2]包含3个核心类。
 
 * [Database][8]：包含数据库的持有类，作为数据库的操作入口。
     注解@Database的类需要满足以下条件。
@@ -224,7 +227,7 @@ abstract class AppDatabase : RoomDatabase() {
 ```
 
 ### Cannot access database on the main thread since it may potentially lock the UI for a long period of time
-[Room][19]的操作默认不允许在主线程进行。
+[Room][2]的操作默认不允许在主线程进行。
 例如下面这段代码就会抛出上述异常：
 
 ```kotlin
@@ -256,7 +259,7 @@ Room.databaseBuilder(context.applicationContext,
 ```
 
 ### Migration
-在进行[Room][20]数据库发生改动的时候需要进行Migration的操作。
+在进行[Room][2]数据库发生改动的时候需要进行Migration的操作。
 给`user`增加一个字段`gender:Int`：
 
 1，声明Migration
@@ -314,11 +317,7 @@ abstract class AppDatabase : RoomDatabase() {
 
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [2]: https://developer.android.google.cn/topic/libraries/architecture/room
-  [3]: https://developer.android.google.cn/topic/libraries/architecture/room
-  [4]: https://developer.android.google.cn/topic/libraries/architecture/room
   [5]: https://developer.android.google.cn/images/training/data-storage/room_architecture.png
-  [6]: https://developer.android.google.cn/images/training/data-storage/room_architecture.png
-  [7]: https://developer.android.google.cn/topic/libraries/architecture/room
   [8]: https://developer.android.google.cn/reference/android/arch/persistence/room/Database
   [9]: https://developer.android.google.cn/reference/android/arch/persistence/room/RoomDatabase
   [10]: https://developer.android.google.cn/reference/android/arch/persistence/room/Database
@@ -330,5 +329,3 @@ abstract class AppDatabase : RoomDatabase() {
   [16]: https://developer.android.google.cn/training/data-storage/room/access
   [17]: http://qfxl.oss-cn-shanghai.aliyuncs.com/images/room_demo.gif
   [18]: https://github.com/qfxl/RoomSample.aliyuncs.com/images/room_demo.gif
-  [19]: https://developer.android.google.cn/topic/libraries/architecture/room
-  [20]: https://developer.android.google.cn/topic/libraries/architecture/room
