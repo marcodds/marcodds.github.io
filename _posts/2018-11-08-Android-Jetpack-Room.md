@@ -34,7 +34,7 @@ tags: Room
 
 User.kt
 ```kotlin
-@Entity(tableName = "User")//tableName可省略
+@Entity(tableName = "user")//tableName可省略
 data class User(
         val name: String,
         val age: Int
@@ -46,6 +46,8 @@ data class User(
     var list: ArrayList<String>? = null
 
     var createDate = Date()
+
+    var gender: Int? = null
 }
 ```
 
@@ -184,6 +186,7 @@ userDao.queryUsers()
 
 ### 如何添加非基础数据类型的数据
 以List跟Date为例：
+
 1，声明converter
 ```kotlin
 class ListConverter {
@@ -220,7 +223,95 @@ abstract class AppDatabase : RoomDatabase() {
     xxx
 }
 ```
-TODO
+
+### Cannot access database on the main thread since it may potentially lock the UI for a long period of time
+[Room][2]的操作默认不允许在主线程进行。
+例如下面这段代码就会抛出上述异常：
+
+```kotlin
+ val userDao = AppDatabase.getInstance(this).userDao()
+ userDao.addUser(User("Anna",18))
+```
+
+上述操作不能在主线程进行，如果使用了RxJava则可以这么修改：
+
+```kotlin
+    val userDao = AppDatabase.getInstance(this).userDao()
+    Completable.fromAction { userDao.addUser(User("Anna", 18)) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                       // insert success
+                    }
+```
+或者使用其他异步的方式进行。
+
+**如果头铁的话，可以这么设置，就能在主线程进行数据库的操作。**
+初始化Room的时候进行以下设置。
+
+```kotlin
+Room.databaseBuilder(context.applicationContext,
+                    AppDatabase::class.java, dbFile.absolutePath)
+                    .allowMainThreadQueries()
+                    .build()
+```
+
+### Migration
+在进行[Room][2]数据库发生改动的时候需要进行Migration的操作。
+给`user`增加一个字段`gender:Int`：
+
+1，声明Migration
+
+```kotlin
+class AppRoomMigration(startVersion: Int, endVersion: Int) : Migration(startVersion, endVersion) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        //版本1迁移到版本2
+        if (startVersion == 1 && endVersion == 2) {
+            database.execSQL("ALTER TABLE user ADD COLUMN gender Int")
+        }
+    }
+}
+```
+
+2，添加Migration
+
+```kotlin
+//版本更改
+@Database(entities = [User::class], version = 2, exportSchema = false)
+@TypeConverters(ListConverter::class, DateConverter::class)
+abstract class AppDatabase : RoomDatabase() {
+    companion object {
+
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE
+                            ?: buildDatabase(context).also { INSTANCE = it }
+                }
+
+        private fun buildDatabase(context: Context): AppDatabase {
+            val dbDir = File(Environment.getExternalStorageDirectory(), "GoogleRoomDatabase")
+            if (dbDir.exists()) {
+                dbDir.mkdir()
+            }
+
+            val dbFile = File(dbDir, "Sample.db")
+            return Room.databaseBuilder(context.applicationContext,
+                    AppDatabase::class.java, dbFile.absolutePath)
+                    //添加Migration
+                    .addMigrations(AppRoomMigration(1, 2))
+                    .build()
+        }
+
+    }
+
+    abstract fun userDao(): UserDao
+}
+```
+也可以跨版本进行迁移，代码同上。
+
 
   [1]: https://www.youtube.com/watch?v=LmkKFCfmnhQ&t=42s
   [2]: https://developer.android.google.cn/topic/libraries/architecture/room
