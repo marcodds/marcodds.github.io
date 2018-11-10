@@ -328,4 +328,4 @@ abstract class AppDatabase : RoomDatabase() {
   [15]: https://developer.android.google.cn/training/data-storage/room/defining-data
   [16]: https://developer.android.google.cn/training/data-storage/room/access
   [17]: http://qfxl.oss-cn-shanghai.aliyuncs.com/images/room_demo.gif
-  [18]: https://github.com/qfxl/RoomSample.aliyuncs.com/images/room_demo.gif
+  [18]: https://github.com/qfxl/Samples/tree/master/room_sample
