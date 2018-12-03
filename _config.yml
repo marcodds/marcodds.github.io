@@ -6,7 +6,7 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: 清风徐来
+title:  徐永红
 brief-intro: Android Developer
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://github.com/qfxl" # the base hostname & protocol for your site
