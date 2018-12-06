@@ -48,7 +48,6 @@ tags: Jenkins
 下一步，解压文件
 > tar zxvf jdk文件.tar.gz
 
-
 ## centos 安装git
 > yum install git
 
@@ -182,6 +181,8 @@ Jeknins配置文件的目录
 
 ![image](http://qfxl.oss-cn-shanghai.aliyuncs.com/images/Jenkins6.jpg)
 
+> clean assemble${flavor}${buildType} --stacktrace --debug
+
 保存。
 
 ![image](http://qfxl.oss-cn-shanghai.aliyuncs.com/images/Jenkins_build1.jpg)
@@ -196,7 +197,7 @@ Jeknins配置文件的目录
 
 ## 将打包的apk自动发布到蒲公英。
 
-[蒲公英官方文档有Jenkins继承发布说明。](https://www.pgyer.com/doc/view/jenkins_plugin)
+[蒲公英官方文档有Jenkins集成发布说明。](https://www.pgyer.com/doc/view/jenkins_plugin)
 
 **如何操作？**
 
