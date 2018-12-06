@@ -249,6 +249,18 @@ Jeknins配置文件的目录
 
 ![image](http://qfxl.oss-cn-shanghai.aliyuncs.com/images/Jenkins_build_success.png)
 
+## 修改build name
+
+如果不想构建名称是 `#1 #2`这样的话可以选择修改名称。
+借助插件`build-name-setter`。
+安装完成之后，在项目配置里如下修改。
+
+![image](http://qfxl.oss-cn-shanghai.aliyuncs.com/images/Jenkins_build_name.png)
+
+之后再build就是如下效果：
+
+![image](http://qfxl.oss-cn-shanghai.aliyuncs.com/images/Jenkins_build_rename.png)
+
 ## 可能会遇到的问题汇总
 
 ### 阿里云服务器配置完成之后无法通过8080端口打开Jenkins
