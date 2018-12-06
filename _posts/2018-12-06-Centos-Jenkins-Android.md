@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Centos 配置Jenkins 实现Android自动打包并上传到蒲公英"
+title:  "Centos配置Jenkins实现Android自动打包并上传到蒲公英"
 date:   2018-12-06 17:32:10
 categories: Android
 tags: Jenkins 
@@ -9,14 +9,14 @@ tags: Jenkins
 * content
 {:toc}
 
-本文记Centos 配置Jenkins 实现Android自动打包并上传到蒲公英
+本文记录Centos配置Jenkins实现Android自动打包并上传到蒲公英。
 
 
 
 
-# Centos 配置Jenkins 实现Android自动打包并上传到蒲公英
+# Centos配置Jenkins 实现Android自动打包并上传到蒲公英
 
-操作系统为macOS，Jenkins安装操作系统为centos。
+操作系统为macOS，Jenkins安装操作系统为Centos。
 
 大致流程：
 
@@ -28,7 +28,7 @@ tags: Jenkins
 
 ## 卸载openJDK（centos默认安装openJDK）
 
-> rpm -qa | grep jdk
+> rpm -qa \| grep jdk
 
 该命令会列出所有的jdk内容
 
@@ -55,7 +55,7 @@ tags: Jenkins
 ## centos 安装gradle并配置环境
 > wget https://downloads.gradle.org/distributions/gradle-5.0-all.zip
 
-解压gradle，我这里直接放在了root
+解压gradle，我这里直接放在了最顶层目录
 
 > unzip gradle-5.0-all.zip
 
