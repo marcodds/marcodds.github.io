@@ -32,5 +32,5 @@ type: page
 
 ## 友情链接
 
-[本人CSDN博客地址](https://blog.csdn.net/xuyonghong1122) 
+[CSDN博客地址](https://blog.csdn.net/xuyonghong1122) 
 
