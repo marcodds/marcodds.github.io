@@ -6,16 +6,16 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title:  徐永红
-brief-intro: Android Developer
+title:  春华秋实
+brief-intro: PHP Developer
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://github.com/qfxl" # the base hostname & protocol for your site
+url: "https://github.com/marcodds" # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
 
 # other links
-github_username:  qfxl
-email: xuyonghong0822@gmail.com
+github_username:  marcodds
+email: marco_9669@163.com
 
 description_footer: 好记性不如烂笔头。
 
@@ -23,13 +23,13 @@ description_footer: 好记性不如烂笔头。
 # two ways to comment, only choose one, and use your own short name
 # 两种评论插件，选一个就好了，使用自己的 short_name
 duoshuo_shortname: #qfxl
-disqus_shortname: https-xuyonghong-cn
+disqus_shortname:
 
 # statistic analysis 统计代码
 # 百度统计 id，将统计代码替换为自己的百度统计id，即
 # hm.src = "//hm.baidu.com/hm.js?xxxxxxxxxxxx";
 # xxxxx字符串
-baidu_tongji_id: 33c2f2622babdcdb746defd56487a063
+baidu_tongji_id:
 google_analytics_id: UA-72449510-4 # google 分析追踪id
 
 # Build settings
